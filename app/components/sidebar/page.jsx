@@ -78,7 +78,7 @@ export default function Sidebar({ handleVisibility, features }) {
             color: cliecked.portoarmi ? 'black' : ''
           }}
           >
-          Porto d'Armi
+          Porto d&apos;Armi
         </button>}
 
         {features.listaCartelleCliniche != null && <button

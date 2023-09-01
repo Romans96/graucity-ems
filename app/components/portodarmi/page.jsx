@@ -288,7 +288,7 @@ export default function PortoDArmi({ listaPortiDArmi }) {
         <div className="absolute -translate-x-1/2 -translate-y-1/2 top-1/2 left-1/2 w-1/2 h-fit bg-orange-700 p-4 rounded-lg
           flex flex-col items-center justify-center
         ">
-          <span className="mx-auto underline">Dettagli Porto d'armi</span>
+          <span className="mx-auto underline">Dettagli Porto d&apos;armi</span>
           <span>Nome: {ingrandisci.nome}</span>
           <span>Cognome: {ingrandisci.cognome}</span>
           <span>

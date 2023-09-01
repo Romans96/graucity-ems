@@ -12,7 +12,7 @@ export default function RootLayout({ children }) {
   return (
     <html lang="en">
       <head>
-        <script src="https://unpkg.com/jspdf@latest/dist/jspdf.umd.min.js"></script>
+        <script defer src="https://unpkg.com/jspdf@latest/dist/jspdf.umd.min.js"></script>
       </head>
       <body className={inter.className}>
         <div className="min-h-screen min-w-screen flex overflow-hidden box-border bg-orange-300">{children}</div>

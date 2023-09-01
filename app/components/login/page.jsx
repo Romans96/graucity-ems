@@ -6,6 +6,8 @@ import LoginClient from "./login-client";
 import Image from "next/image";
 import Logoospedale from "../../../public/Logo_Ospedale.png";
 
+export const dynamic = 'force-dynamic';
+
 export default async function Login() {
   const supabase = createServerComponentClient({ cookies });
   const { data: {session} } = await supabase.auth.getSession();

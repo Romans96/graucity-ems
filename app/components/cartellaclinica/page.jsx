@@ -6,6 +6,7 @@ import { useRouter } from "next/navigation";
 import NotificationAlert from "../notification-alert/page";
 
 import { v4 as uuidv4 } from "uuid";
+import Image from "next/image";
 
 export default function CartellaClinica({ listaCartelleCliniche }) {
   const supabase = createClientComponentClient();

@@ -230,7 +230,7 @@ export default function ElencoDipendenti({ listaElencoDipendenti }) {
               }}
               className="bg-black text-white"
             >
-              <option defaultValue>Seleziona un'opzione...</option>
+              <option defaultValue>Seleziona un&apos;opzione...</option>
               <option value="M">M</option>
               <option value="F">F</option>
             </select>

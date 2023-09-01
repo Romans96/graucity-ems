@@ -4,6 +4,8 @@ import { redirect } from 'next/navigation';
 import { NextResponse } from 'next/server';
 import Dashboard from './components/dashboard/page';
 
+export const dynamic = 'force-dynamic';
+
 export default async function Home() {
   const supabase = createServerComponentClient({ cookies });
   const { data: {session} } = await supabase.auth.getSession();
