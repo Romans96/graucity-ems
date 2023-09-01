@@ -12,7 +12,21 @@ module.exports = {
         'gradient-conic':
           'conic-gradient(from 180deg at 50% 50%, var(--tw-gradient-stops))',
       },
+      keyframes: {
+        logorotation: {
+          'to': {transform: 'rotateY(360deg)'}
+        }
+      },
+      animation: {
+        'spin-logo': 'logorotation 10s linear infinite'
+      },
+      fontFamily: {
+        'lobster': ['Lobster']
+      }
     },
   },
-  plugins: [],
+  plugins: [
+    require('tailwindcss'),
+    require('autoprefixer')
+  ],
 }
