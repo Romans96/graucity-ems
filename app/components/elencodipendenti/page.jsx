@@ -114,7 +114,7 @@ export default function ElencoDipendenti({ listaElencoDipendenti }) {
         </div>
 
         <div className="overflow-auto no-scrollbar max-h-[91%]">
-          {listaElencoDipendenti.map((item) => {
+          {listaElencoDipendenti && listaElencoDipendenti.map((item) => {
             let data_nascita = new Date(item.data_nascita);
             data_nascita = data_nascita.getDate()+"/"+(data_nascita.getMonth()+1)+"/"+data_nascita.getFullYear()
             return (

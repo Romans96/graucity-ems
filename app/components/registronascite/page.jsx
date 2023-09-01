@@ -113,7 +113,7 @@ export default function RegistroNascita({ listaRegistriNascite }) {
         </div>
 
         <div className="overflow-auto no-scrollbar max-h-[91%]">
-          {listaRegistriNascite.map((item) => {
+          {listaRegistriNascite && listaRegistriNascite.map((item) => {
             let data_nascita = new Date(item.data_nascita);
             data_nascita = data_nascita.getDate()+"/"+(data_nascita.getMonth()+1)+"/"+data_nascita.getFullYear();
             let data_rilascio = new Date(item.created_at);
