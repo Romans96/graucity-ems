@@ -68,7 +68,7 @@ export default function Sidebar({ handleVisibility, features }) {
       [&>*]:relative [&>*]:h-fit [&>*]:w-fit [&>*]:mx-auto [&>*]:text-lg [&>*]:px-1
       [&>*:hover]:drop-shadow-xl [&>*:hover]:text-orange-600 [&>*:hover]:shadow-xl [&>*:hover]:italic  
       ">
-        {features.listaPortiDArmi != null && <button
+        {features && features.listaPortiDArmi != null && <button
           title="Mostra i documenti riguardanti i Porto d'Armi"
           onClick={(e) => {
             handleVisibility("portiDArmi");
@@ -81,7 +81,7 @@ export default function Sidebar({ handleVisibility, features }) {
           Porto d&apos;Armi
         </button>}
 
-        {features.listaCartelleCliniche != null && <button
+        {features && features.listaCartelleCliniche != null && <button
           title="Mostra i documenti riguardanti le Cartelle Cliniche"
           onClick={() => {
             handleVisibility("cartelleCliniche");
@@ -94,7 +94,7 @@ export default function Sidebar({ handleVisibility, features }) {
           Cartella Clinica
         </button>}
 
-        {features.listaRegistriNascite != null && <button
+        {features && features.listaRegistriNascite != null && <button
           title="Mostra i documenti riguardanti i Registri delle Nascite"
           onClick={() => {
             handleVisibility("registriNascite");
@@ -107,7 +107,7 @@ export default function Sidebar({ handleVisibility, features }) {
           Registro Nascite
         </button>}
 
-        {features.listaElencoDipendenti != null && <button
+        {features && features.listaElencoDipendenti != null && <button
           title="Mostra la lista dei dipendenti assunti"
           onClick={() => {
             handleVisibility("elencoDipendenti")
@@ -120,7 +120,7 @@ export default function Sidebar({ handleVisibility, features }) {
           Elenco Dipendenti
         </button>}
 
-        {features.listaProfili != null && <button
+        {features && features.listaProfili != null && <button
           title="Mostra ai direttori e agli amministratori tutti gli utenti registrati sul sito"
           onClick={() => {
             handleVisibility("elencoUtenti")
