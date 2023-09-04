@@ -7,6 +7,11 @@ import { useRouter } from "next/navigation";
 import { v4 as uuidv4 } from "uuid";
 import NotificationAlert from "../notification-alert/page";
 
+import PlusIcon from "public/+-icon-black.png";
+import FUllScreenIcon from "public/fullscreen-icon.png";
+import DeleteIcon from "public/delete-icon-table.png";
+import Image from "next/image";
+
 export default function PortoDArmi({ listaPortiDArmi }) {
   const supabase = createClientComponentClient();
   const [direttore, setDirettore] = useState(false);
@@ -69,7 +74,7 @@ export default function PortoDArmi({ listaPortiDArmi }) {
     setInsertForm(form => {
       const newForm = {...form};
       newForm.screen = fileName;
-      console.log(newForm)
+      // console.log(newForm)
       fetch("/api/new-portodarma", {
         method: "post",
         body: JSON.stringify(newForm),
@@ -80,7 +85,7 @@ export default function PortoDArmi({ listaPortiDArmi }) {
         .then((res) => {
           setShowInsertForm(false);
           setInsertForm(initialForm);
-          console.log("res", res.statusText);
+          // console.log("res", res.statusText);
           setNotification({ show: true, message: res.statusText });
           setTimeout(() => {
             setNotification({ show: false, message: "" });
@@ -117,8 +122,8 @@ export default function PortoDArmi({ listaPortiDArmi }) {
 
   return (
     <div className="mx-auto mt-5 overflow-none">
-      <img 
-        src="/+-icon-black.png"
+      <Image 
+        src={PlusIcon}
         title="Aggiungi un nuovo documento"
         className="w-10 saturate-100 opacity-100 hover:invert cursor-pointer"
         onClick={() => {

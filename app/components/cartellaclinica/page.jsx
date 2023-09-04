@@ -55,13 +55,13 @@ export default function CartellaClinica({ listaCartelleCliniche }) {
           cacheControl: "3600",
           upsert: false,
         });
-      console.log(data, error)
-      console.log(fileName)
+      // console.log(data, error)
+      // console.log(fileName)
     }
     setInsertForm(form => {
       const newForm = {...form};
       newForm.screen = fileName;
-      console.log(newForm)
+      // console.log(newForm)
       fetch("/api/new-cartellaclinica", {
         method: "post",
         body: JSON.stringify(newForm),
@@ -157,7 +157,7 @@ export default function CartellaClinica({ listaCartelleCliniche }) {
                           .storage
                           .from('screen_cartellecliniche')
                           .getPublicUrl(`${item.screen}`, 10);
-                        console.log(data, item.screen);
+                        // console.log(data, item.screen);
                         
                         newIng.nome = item.nome;
                         newIng.cognome = item.cognome;
@@ -165,7 +165,7 @@ export default function CartellaClinica({ listaCartelleCliniche }) {
                         newIng.url = data.publicUrl;
                         newIng.show = true;
 
-                        console.log(newIng, ingrandisci.screen)
+                        // console.log(newIng, ingrandisci.screen)
                         return newIng;
                       })
                     } else {

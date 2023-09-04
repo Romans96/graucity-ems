@@ -1,7 +1,6 @@
 'use client'
 
 import { createClientComponentClient } from "@supabase/auth-helpers-nextjs";
-import { Clicker_Script } from "next/font/google";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 
@@ -25,7 +24,7 @@ export default function Sidebar({ handleVisibility, features }) {
       let {data: {session} } = await supabase.auth.getSession();
       let { data } = await supabase.from('profili').select().eq('id', session.user.id);
       setProfile(p => p = data[0]);
-      console.log(profile, data[0])
+      // console.log(profile, data[0])
     }
     fetchData();
   }, [])

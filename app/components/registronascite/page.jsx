@@ -53,7 +53,7 @@ export default function RegistroNascita({ listaRegistriNascite }) {
       .then((res) => {
         setShowInsertForm(false);
         setInsertForm(initialForm);
-        console.log("res", res.statusText);
+        // console.log("res", res.statusText);
         setNotification({ show: true, message: res.statusText });
         setTimeout(() => {
           setNotification({ show: false, message: "" });
