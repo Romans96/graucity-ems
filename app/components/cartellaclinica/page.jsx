@@ -46,15 +46,18 @@ export default function CartellaClinica({ listaCartelleCliniche }) {
 
   async function newCartellaClinica(e) {
     e.preventDefault();
-    const fileName = `CartellaClinica_${insertForm.nome}-${insertForm.cognome}_${uuidv4()}`;
-    const { data, error } = await supabase.storage
-      .from("screen_cartellecliniche")
-      .upload(fileName, file, {
-        cacheControl: "3600",
-        upsert: false,
-      });
-    console.log(data, error)
-    console.log(fileName)
+    let fileName = "";
+    if (file) {
+      fileName = `CartellaClinica_${insertForm.nome}-${insertForm.cognome}_${uuidv4()}`;
+      const { data, error } = await supabase.storage
+        .from("screen_cartellecliniche")
+        .upload(fileName, file, {
+          cacheControl: "3600",
+          upsert: false,
+        });
+      console.log(data, error)
+      console.log(fileName)
+    }
     setInsertForm(form => {
       const newForm = {...form};
       newForm.screen = fileName;

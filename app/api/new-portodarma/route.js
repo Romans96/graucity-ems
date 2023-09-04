@@ -67,7 +67,7 @@ export async function POST(request) {
         }
       }
       // const dateOfBirth = new Date(insertForm.data_nascita);
-      // console.log(insertForm);
+      console.log(insertForm);
       const result = await supabase.from("porti_darmi").insert({
         nome: insertForm.nome,
         cognome: insertForm.cognome,

@@ -50,17 +50,21 @@ export default function PortoDArmi({ listaPortiDArmi }) {
   async function newPortoDarma(e) {
     e.preventDefault();
     // Image storage
-    const fileName = `${uuidv4()}_${insertForm.nome}-${insertForm.cognome}`;
+    let fileName = "";
+    if (file) {
+    fileName = `${uuidv4()}_${insertForm.nome}-${insertForm.cognome}`;
     const { data, error } = await supabase.storage
       .from("screen_portidarmi")
       .upload(fileName, file, {
         cacheControl: "3600",
         upsert: false,
       });
-    // console.log(data, error)
     
-    // console.log(insertForm)
-    console.log(fileName)
+      // console.log(data, error)
+      
+      // console.log(insertForm)
+      // console.log(fileName)
+    }
     // setInsertForm(form => {return {...form, screen: fileName}});
     setInsertForm(form => {
       const newForm = {...form};
