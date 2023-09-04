@@ -120,7 +120,7 @@ export default function UsersView({ listaProfili }) {
         </div>
 
         <div className="overflow-auto no-scrollbar max-h-[91%]">
-          {listaProfili && listaProfili.lista.map((user) => {
+          {listaProfili && listaProfili?.lista?.map((user) => {
             return (
               <div key={user.id} className="flex flex-row items-center justify-around 
                 flex flex-row h-16 items-center text-black

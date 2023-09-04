@@ -130,7 +130,7 @@ export default function CartellaClinica({ listaCartelleCliniche }) {
         </div>
 
         <div className="overflow-auto no-scrollbar max-h-[91%]">
-          {listaCartelleCliniche && listaCartelleCliniche.map((item) => {
+          {listaCartelleCliniche && listaCartelleCliniche?.map((item) => {
             return (
               <div key={item.id} className="flex flex-row items-center justify-around [&>*]:w-[100%] [&>*]:text-center
               flex flex-row h-16 items-center text-black

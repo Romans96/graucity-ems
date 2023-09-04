@@ -137,7 +137,7 @@ export default function PortoDArmi({ listaPortiDArmi }) {
         </div>
 
         <div className="overflow-auto no-scrollbar max-h-[91%]">
-          {listaPortiDArmi && listaPortiDArmi.map((item) => {
+          {listaPortiDArmi && listaPortiDArmi?.map((item) => {
             return (
               <div key={item.id} className="flex flex-row items-center justify-around [&>*]:w-[100%] [&>*]:text-center
                 flex flex-row h-16 items-center text-black
