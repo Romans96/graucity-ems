@@ -40,8 +40,29 @@ export default async function Home() {
     utente.direttore
   ) {
     let { data } = await supabase.from("porti_darmi").select().order('created_at', {ascending: false});
-    // console.log(data)
-    features.listaPortiDArmi = data;
+
+    new Promise((resolve, reject) => {
+      data.forEach( async (userData, index) => {
+        supabase
+          .from("profili")
+          .select()
+          .eq("id", userData.profilo_id)
+          .limit(1).then((val) => {
+            // console.log(val)
+            data[index].nomeDottore = val.data[0].nome
+            data[index].dottoreDiscord = val.data[0].discord_id
+            // console.log(index, data.length)
+            if (index === data.length-1) {
+              resolve();
+            }
+          })
+      })
+      
+    }).then((res) => {
+      // console.log(data);
+        // console.log(data[2])
+      features.listaPortiDArmi = data;
+    })
   } else {
     features.listaPortiDArmi = null;
   }
@@ -51,7 +72,29 @@ export default async function Home() {
     utente.direttore
   ) {
     let { data } = await supabase.from("cartelle_cliniche").select().order('created_at', {ascending: false});
-    features.listaCartelleCliniche = data;
+
+    new Promise((resolve, reject) => {
+      data.forEach( async (userData, index) => {
+        supabase
+          .from("profili")
+          .select()
+          .eq("id", userData.profilo_id)
+          .limit(1).then((val) => {
+            // console.log(val)
+            data[index].nomeDottore = val.data[0].nome
+            data[index].dottoreDiscord = val.data[0].discord_id
+            // console.log(index, data.length)
+            if (index === data.length-1) {
+              resolve();
+            }
+          })
+      })
+      
+    }).then((res) => {
+      // console.log(data);
+        // console.log(data[2])
+      features.listaCartelleCliniche = data;
+    })
   } else {
     features.listaCartelleCliniche = null;
   }

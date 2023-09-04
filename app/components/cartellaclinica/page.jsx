@@ -38,6 +38,7 @@ export default function CartellaClinica({ listaCartelleCliniche }) {
         .select()
         .eq("id", user.id)
         .limit(1);
+      // console.log(data[0])
       setNomeDottore(data[0].nome);
       setDirettore(data[0].direttore)
     }
@@ -107,6 +108,10 @@ export default function CartellaClinica({ listaCartelleCliniche }) {
     })
   }
 
+  function AddZeroOnDate(date) {
+    return date<10 ? '0'+date : date;
+  }
+
   return (
     <div className="mx-auto mt-5 overflow-none">
       <img 
@@ -127,6 +132,7 @@ export default function CartellaClinica({ listaCartelleCliniche }) {
           ">
           <span className="border-r-2">Nome</span>
           <span className="border-r-2">Cognome</span>
+          <span className="border-r-2">Data Rilascio</span>
           <span>Nome dottore</span>
           <span></span>
           {direttore && <span></span>}
@@ -134,6 +140,11 @@ export default function CartellaClinica({ listaCartelleCliniche }) {
 
         <div className="overflow-auto no-scrollbar max-h-[91%]">
           {listaCartelleCliniche && listaCartelleCliniche?.map((item) => {
+            // console.log(item.created_at)
+            const dataCreazione = new Date(item.created_at)
+            let dataCreazioneFinale = AddZeroOnDate(dataCreazione.getDate()) + "-" + AddZeroOnDate((dataCreazione.getMonth()+1)) + "-" + dataCreazione.getFullYear();
+            dataCreazioneFinale = dataCreazioneFinale + " " + (AddZeroOnDate(dataCreazione.getHours()) + ":" + AddZeroOnDate(dataCreazione.getMinutes()) );
+            // console.log(dataCreazioneFinale)
             return (
               <div key={item.id} className="flex flex-row items-center justify-around [&>*]:w-[100%] [&>*]:text-center
               flex flex-row h-16 items-center text-black
@@ -143,7 +154,8 @@ export default function CartellaClinica({ listaCartelleCliniche }) {
             ">
               <span className="border-r-2">{item.nome}</span>
               <span className="border-r-2">{item.cognome}</span>
-              <span>{nomeDottore}</span>
+              <span className="border-r-2">{dataCreazioneFinale}</span>
+              <span>{item.nomeDottore}</span>
               <span>
                 <img 
                   src="/fullscreen-icon.png"
@@ -161,6 +173,7 @@ export default function CartellaClinica({ listaCartelleCliniche }) {
                         
                         newIng.nome = item.nome;
                         newIng.cognome = item.cognome;
+                        newIng.discordDottore = item.discordDottore;
                         newIng.screen = item.screen;
                         newIng.url = data.publicUrl;
                         newIng.show = true;
@@ -287,6 +300,7 @@ export default function CartellaClinica({ listaCartelleCliniche }) {
           <span className="mx-auto underline">Dettagli Cartella Clinica</span>
           <span>Nome: {ingrandisci.nome}</span>
           <span>Cognome: {ingrandisci.cognome}</span>
+          <span>Discord ID Dottore: {ingrandisci.dottoreDiscord}</span>
           <span>
             <img src={ingrandisci.url} alt="Immagine profilo" 
               className="max-h-[65vh]"

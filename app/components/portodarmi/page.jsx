@@ -46,6 +46,7 @@ export default function PortoDArmi({ listaPortiDArmi }) {
         .eq("id", user.id)
         .limit(1);
       setProfile(user);
+      // console.log(data[0], user)
       setNomeDottore(data[0].nome);
       setDirettore(data[0].direttore);
     }
@@ -64,11 +65,6 @@ export default function PortoDArmi({ listaPortiDArmi }) {
         cacheControl: "3600",
         upsert: false,
       });
-    
-      // console.log(data, error)
-      
-      // console.log(insertForm)
-      // console.log(fileName)
     }
     // setInsertForm(form => {return {...form, screen: fileName}});
     setInsertForm(form => {
@@ -118,6 +114,10 @@ export default function PortoDArmi({ listaPortiDArmi }) {
       }, 8000);
       router.refresh();
     })
+  }  
+
+  function AddZeroOnDate(date) {
+    return date<10 ? '0'+date : date;
   }
 
   return (
@@ -125,6 +125,7 @@ export default function PortoDArmi({ listaPortiDArmi }) {
       <Image 
         src={PlusIcon}
         title="Aggiungi un nuovo documento"
+        alt="Aggiunta Documento"
         className="w-10 saturate-100 opacity-100 hover:invert cursor-pointer"
         onClick={() => {
           setShowInsertForm(true);
@@ -140,6 +141,7 @@ export default function PortoDArmi({ listaPortiDArmi }) {
           ">
           <span className="border-r-2">Nome</span>
           <span className="border-r-2">Cognome</span>
+          <span className="border-r-2">Data Rilascio</span>
           <span>Nome dottore</span>
           <span></span>
           {direttore && <span></span>}
@@ -147,6 +149,11 @@ export default function PortoDArmi({ listaPortiDArmi }) {
 
         <div className="overflow-auto no-scrollbar max-h-[91%]">
           {listaPortiDArmi && listaPortiDArmi?.map((item) => {
+            // console.log(item.created_at)
+            const dataCreazione = new Date(item.created_at)
+            let dataCreazioneFinale = AddZeroOnDate(dataCreazione.getDate()) + "-" + AddZeroOnDate((dataCreazione.getMonth()+1)) + "-" + dataCreazione.getFullYear();
+            dataCreazioneFinale = dataCreazioneFinale + " " + (AddZeroOnDate(dataCreazione.getHours()) + ":" + AddZeroOnDate(dataCreazione.getMinutes()) );
+            // console.log(dataCreazioneFinale)
             return (
               <div key={item.id} className="flex flex-row items-center justify-around [&>*]:w-[100%] [&>*]:text-center
                 flex flex-row h-16 items-center text-black
@@ -156,7 +163,8 @@ export default function PortoDArmi({ listaPortiDArmi }) {
               ">
                 <span className="border-r-2">{item.nome}</span>
                 <span className="border-r-2">{item.cognome}</span>
-                <span>{nomeDottore}</span>
+                <span className="border-r-2">{dataCreazioneFinale}</span>
+                <span>{item.nomeDottore}</span>
                 <span>
                   <img 
                     src="/fullscreen-icon.png"
@@ -174,6 +182,7 @@ export default function PortoDArmi({ listaPortiDArmi }) {
                           
                           newIng.nome = item.nome;
                           newIng.cognome = item.cognome;
+                          newIng.dottoreDiscord = item.dottoreDiscord;
                           newIng.screen = item.screen;
                           newIng.url = data.publicUrl;
                           newIng.show = true;
@@ -300,6 +309,7 @@ export default function PortoDArmi({ listaPortiDArmi }) {
           <span className="mx-auto underline">Dettagli Porto d&apos;armi</span>
           <span>Nome: {ingrandisci.nome}</span>
           <span>Cognome: {ingrandisci.cognome}</span>
+          <span>Discord ID Dottore: {ingrandisci.dottoreDiscord}</span>
           <span>
             <img src={ingrandisci.url} alt="Immagine profilo" 
               className="max-h-[65vh]"
