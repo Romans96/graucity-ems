@@ -4,7 +4,7 @@ import { useEffect, useState } from "react"
 
 export default function NotificationAlert({ notification }) {
     const [notify, setNotify] = useState(null);
-
+    console.log(notify)
     useEffect(() => {
       setNotify(notification);
     }, [notification])
