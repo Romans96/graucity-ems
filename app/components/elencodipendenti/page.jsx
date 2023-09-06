@@ -18,7 +18,7 @@ export default function ElencoDipendenti({ listaElencoDipendenti }) {
     cognome: "",
     sesso: "",
     ruolo: "",
-    data_nascita: "",
+    // data_nascita: "",
     discord_id: "",
   };
   const [insertForm, setInsertForm] = useState(initialForm);
@@ -106,6 +106,7 @@ export default function ElencoDipendenti({ listaElencoDipendenti }) {
           ">
             <span className="border-r-2">Nome</span>
             <span className="border-r-2">Cognome</span>
+            <span className="border-r-2">Ruolo</span>
             {/* <span className="border-r-2">Sesso</span>
             <span className="border-r-2">Data di Nascita</span>
             <span>Discord ID</span> */}
@@ -115,8 +116,8 @@ export default function ElencoDipendenti({ listaElencoDipendenti }) {
 
         <div className="overflow-auto no-scrollbar max-h-[91%]">
           {listaElencoDipendenti && listaElencoDipendenti?.map((item) => {
-            let data_nascita = new Date(item.data_nascita);
-            data_nascita = data_nascita.getDate()+"/"+(data_nascita.getMonth()+1)+"/"+data_nascita.getFullYear()
+            // let data_nascita = new Date(item.data_nascita);
+            // data_nascita = data_nascita.getDate()+"/"+(data_nascita.getMonth()+1)+"/"+data_nascita.getFullYear()
             return (
               <div key={item.id} className="flex flex-row items-center justify-around [&>*]:w-[100%] [&>*]:text-center
                 flex flex-row h-16 items-center text-black
@@ -126,6 +127,7 @@ export default function ElencoDipendenti({ listaElencoDipendenti }) {
               ">
                 <span className="border-r-2">{item.nome}</span>
                 <span className="border-r-2">{item.cognome}</span>
+                <span className="border-r-2">{item.ruolo}</span>
                 {/* <span className="border-r-2">{item.sesso}</span>
                 <span className="border-r-2">{data_nascita}</span>
                 <span className="border-r-2">{item.discord_id}</span> */}
@@ -144,7 +146,7 @@ export default function ElencoDipendenti({ listaElencoDipendenti }) {
                           newIng.cognome = item.cognome;
                           newIng.sesso = item.sesso;
                           newIng.ruolo = item.ruolo;
-                          newIng.data_nascita = data_nascita;
+                          // newIng.data_nascita = data_nascita;
                           newIng.discord_id = item.discord_id;
                           newIng.show = true;
 
@@ -252,7 +254,7 @@ export default function ElencoDipendenti({ listaElencoDipendenti }) {
               className="bg-black text-white"
             />
           </div>
-          <div
+          {/* <div
               className="flex flex-row justify-evenly w-full
               [&>label]:text-orange-200
               [&>input]:rounded-md [&>input]:px-1 [&>input]:w-3/5
@@ -267,7 +269,7 @@ export default function ElencoDipendenti({ listaElencoDipendenti }) {
               }}
               className="bg-black text-white"
             />
-          </div>
+          </div> */}
 
           <div
               className="flex flex-row justify-evenly w-full
@@ -316,7 +318,7 @@ export default function ElencoDipendenti({ listaElencoDipendenti }) {
           <span>Cognome: {ingrandisci.cognome}</span>
           <span>Sesso: {ingrandisci.sesso}</span>
           <span>Ruolo: {ingrandisci.ruolo}</span>
-          <span>Data di Nascita: {ingrandisci.data_nascita}</span>
+          {/* <span>Data di Nascita: {ingrandisci.data_nascita}</span> */}
           <span>Discord ID: {ingrandisci.discord_id}</span>
 
           <img src="/x-icon-black-2.png"

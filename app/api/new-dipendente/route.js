@@ -65,13 +65,13 @@ export async function POST(request) {
           );
         }
       }
-      const dateOfBirth = new Date(insertForm.data_nascita);
+      // const dateOfBirth = new Date(insertForm.data_nascita);
       const result = await supabase.from("elenco_dipendenti").insert({
         nome: insertForm.nome,
         cognome: insertForm.cognome,
         sesso: insertForm.sesso,
         ruolo: insertForm.ruolo,
-        data_nascita: dateOfBirth,
+        // data_nascita: dateOfBirth,
         discord_id: insertForm.discord_id
       });
       // console.log(result)
