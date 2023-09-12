@@ -152,7 +152,8 @@ export default function ElencoDipendenti({ listaElencoDipendenti }) {
                 "
                 onClick={() => { 
                   document.getElementById("inputSearch").value = "";
-                  setSearchedList(listaElencoDipendenti)
+                  setSearchString("");
+                  setSearchedList(listaElencoDipendenti);
                 }}
               />
             </div>

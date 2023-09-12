@@ -191,6 +191,7 @@ export default function PortoDArmi({ listaPortiDArmi }) {
                 "
                 onClick={() => { 
                   document.getElementById("inputSearch").value = "";
+                  setSearchString("")
                   setSearchedList(listaPortiDArmi)
                 }}
               />

@@ -151,6 +151,7 @@ export default function RegistroNascita({ listaRegistriNascite }) {
                 "
                 onClick={() => { 
                   document.getElementById("inputSearch").value = "";
+                  setSearchString("");
                   setSearchedList(listaRegistriNascite)
                 }}
               />

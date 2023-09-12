@@ -154,6 +154,7 @@ export default function UsersView({ listaProfili }) {
                 "
                 onClick={() => { 
                   document.getElementById("inputSearch").value = "";
+                  setSearchString("");
                   setSearchedList(listaProfili?.lista)
                 }}
               />

@@ -177,6 +177,7 @@ export default function CartellaClinica({ listaCartelleCliniche }) {
                 "
                 onClick={() => { 
                   document.getElementById("inputSearch").value = "";
+                  setSearchString("");
                   setSearchedList(listaCartelleCliniche)
                 }}
               />
