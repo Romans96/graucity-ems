@@ -185,7 +185,7 @@ export default function Sidebar({ handleVisibility, features }) {
                   <li className="text-orange-200">v1.5 - (12/09/2023)</li>
                 </ul>
                 <ul>
-                  <li>- Fix Pagina Porti d'Armi per il ruolo infermiere</li>
+                  <li>- Fix Pagina Porti d&apos;Armi per il ruolo infermiere</li>
                   <li>- Aggiunta Barra di Ricerca in ogni sezione</li>
                 </ul>
               </div>
@@ -201,7 +201,7 @@ export default function Sidebar({ handleVisibility, features }) {
                 <ul className="list-disc list-inside text-orange-200">
                   <li>v1.1 - (04/09/2023)</li>
                 </ul>
-                <ul>- Fix Nomi Medici nella tabella dei Porto d'armi, Cartelle cliniche e registro nascite</ul>
+                <ul>- Fix Nomi Medici nella tabella dei Porto d&apos;armi, Cartelle cliniche e registro nascite</ul>
               </div>
               
               <div>
