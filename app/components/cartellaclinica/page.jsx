@@ -237,7 +237,7 @@ export default function CartellaClinica({ listaCartelleCliniche }) {
                         
                         newIng.nome = item.nome;
                         newIng.cognome = item.cognome;
-                        newIng.discord_id = item.nome.discord_id;
+                        newIng.discord_id = item.profili.discord_id;
                         newIng.screen = item.screen;
                         newIng.url = data.publicUrl;
                         newIng.show = true;
