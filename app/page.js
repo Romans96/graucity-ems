@@ -1,10 +1,9 @@
 import { createServerComponentClient } from '@supabase/auth-helpers-nextjs';
 import { cookies } from 'next/headers';
 import { redirect } from 'next/navigation';
-import { NextResponse } from 'next/server';
 import Dashboard from './components/dashboard/page';
 
-export const dynamic = 'force-dynamic';
+// export const dynamic = 'force-dynamic';
 
 export default async function Home() {
   const supabase = createServerComponentClient({ cookies });
@@ -16,7 +15,7 @@ export default async function Home() {
   const { data: {user} } = await supabase.auth.getUser();
   // console.log(session.user.id)
 
-  const features = {}
+  var features = {}
   let { data } = await supabase.from("profili").select().eq('id', session.user.id).limit(1);
   const utente = data[0];
   // console.log(session, user, utente)
@@ -33,68 +32,98 @@ export default async function Home() {
     // return redirect("/")
   }
 
+  // console.log(utente.ruolo.toLowerCase() === "infermiere")
   // Retries the Porti d'Armi
+
   if (utente.ruolo.toLowerCase() === "infermiere" ||
     utente.ruolo.toLowerCase() === "medico" ||
     utente.ruolo.toLowerCase() === "primario" ||
     utente.direttore
   ) {
-    let { data } = await supabase.from("porti_darmi").select().order('created_at', {ascending: false});
+    let { data } = await supabase.from("porti_darmi").select(`
+      id,
+      nome,
+      cognome,
+      screen,
+      created_at,
+      profili (nome, ruolo, discord_id)
+    `).order('created_at', {ascending: false});
+    // console.log(data);
 
-    new Promise((resolve, reject) => {
-      data.forEach( async (userData, index) => {
-        supabase
-          .from("profili")
-          .select()
-          .eq("id", userData.profilo_id)
-          .limit(1).then((val) => {
-            // console.log(val)
-            data[index].nomeDottore = val.data[0].nome
-            data[index].dottoreDiscord = val.data[0].discord_id
-            // console.log(index, data.length)
-            if (index === data.length-1) {
-              resolve();
-            }
-          })
-      })
+    features.listaPortiDArmi = data;
+
+
+    // let updatedData = [];
+    // new Promise((resolve, reject) => {
+    //   data.forEach( async (userData, index) => {
+    //     updatedData[index] = data[index];
+
+    //     supabase
+    //       .from("profili")
+    //       .select()
+    //       .eq("id", userData.profilo_id)
+    //       .limit(1).then((val) => {
+    //         // console.log(val.data[0].nome)
+    //         updatedData[index]["nomeDottore"] = val.data[0].nome
+    //         updatedData[index]["dottoreDiscord"] = val.data[0].discord_id
+    //         // console.log(index, data.length)
+    //         // console.log(data);
+    //         if (index === data.length-1) {
+    //           console.log("Fine for each")
+    //           resolve();
+    //         }
+    //       })
+    //   })
       
-    }).then((res) => {
-      // console.log(data);
-        // console.log(data[2])
-      features.listaPortiDArmi = data;
-    })
+    // }).then((res) => {
+    //   // console.log(data);
+    //     // console.log(data[2])
+    //   features.listaPortiDArmi = updatedData;
+    //   // console.log(features.listaPortiDArmi);
+    // })
   } else {
     features.listaPortiDArmi = null;
   }
+  // console.log(features.listaPortiDArmi);
 
   if (utente.ruolo.toLowerCase() === "medico" ||
     utente.ruolo.toLowerCase() === "primario" ||
     utente.direttore
   ) {
-    let { data } = await supabase.from("cartelle_cliniche").select().order('created_at', {ascending: false});
+    
+    let { data } = await supabase.from("cartelle_cliniche").select(`
+      id,
+      nome,
+      cognome,
+      screen,
+      created_at,
+      profili (nome, ruolo, discord_id)
+    `).order('created_at', {ascending: false});
+    features.listaCartelleCliniche = data;
 
-    new Promise((resolve, reject) => {
-      data.forEach( async (userData, index) => {
-        supabase
-          .from("profili")
-          .select()
-          .eq("id", userData.profilo_id)
-          .limit(1).then((val) => {
-            // console.log(val)
-            data[index].nomeDottore = val.data[0].nome
-            data[index].dottoreDiscord = val.data[0].discord_id
-            // console.log(index, data.length)
-            if (index === data.length-1) {
-              resolve();
-            }
-          })
-      })
+    // features.listaCartelleCliniche = data;
+    // new Promise((resolve, reject) => {
+    //   data.forEach( async (userData, index) => {
+    //     supabase
+    //       .from("profili")
+    //       .select()
+    //       .eq("id", userData.profilo_id)
+    //       .limit(1).then((val) => {
+    //         // console.log(val)
+    //         data[index].nomeDottore = val.data[0].nome
+    //         data[index].dottoreDiscord = val.data[0].discord_id
+    //         // console.log(index, data.length)
+    //         if (index === data.length-1) {
+    //           resolve();
+    //         }
+    //       })
+    //   })
       
-    }).then((res) => {
-      // console.log(data);
-        // console.log(data[2])
-      features.listaCartelleCliniche = data;
-    })
+    // }).then((res) => {
+    //   // console.log(data);
+    //     // console.log(data[2])
+    //   features.listaCartelleCliniche = data;
+    // })
   } else {
     features.listaCartelleCliniche = null;
   }
@@ -103,8 +132,40 @@ export default async function Home() {
     utente.ruolo.toLowerCase() === "primario" ||
     utente.direttore
   ) {
-    let { data } = await supabase.from("registri_nascite").select().order('created_at', {ascending: false});
+    let { data } = await supabase.from("registri_nascite").select(`
+      id,
+      nome,
+      cognome,
+      sesso,
+      data_nascita,
+      created_at,
+      profili (nome, ruolo, discord_id)
+    `).order('created_at', {ascending: false});
     features.listaRegistriNascite = data;
+
+    // features.listaRegistriNascite = data;
+    // new Promise((resolve, reject) => {
+    //   data.forEach( async (userData, index) => {
+    //     supabase
+    //       .from("profili")
+    //       .select()
+    //       .eq("id", userData.profilo_id)
+    //       .limit(1).then((val) => {
+    //         // console.log(val)
+    //         data[index].nomeDottore = val.data[0].nome
+    //         data[index].dottoreDiscord = val.data[0].discord_id
+    //         // console.log(index, data.length)
+    //         if (index === data.length-1) {
+    //           resolve();
+    //         }
+    //       })
+    //   })
+      
+    // }).then((res) => {
+    //   // console.log(data);
+    //     // console.log(data[2])
+    //   features.listaRegistriNascite = data;
+    // })
   } else {
     features.listaRegistriNascite = null;
   }
@@ -130,7 +191,7 @@ export default async function Home() {
     features.listaProfili = null
   }
 
-  return  (
+  return (
     <Dashboard session={session} features={features}  />
   )
 }

@@ -1,10 +1,12 @@
 "use client";
 import { createClientComponentClient } from "@supabase/auth-helpers-nextjs";
 import { useState, useEffect } from 'react';
-import Image from "next/image";
 import { useRouter } from "next/navigation";
 import NotificationAlert from "../notification-alert/page";
 
+import Image from "next/image";
+import searchIcon from 'public/search-icon.png';
+import XIcon2 from "public/x-icon-black-2.png";
 
 export default function UsersView({ listaProfili }) {
   const supabase = createClientComponentClient();
@@ -100,9 +102,64 @@ export default function UsersView({ listaProfili }) {
     
   }
 
+  const [searchedList, setSearchedList] = useState(listaProfili?.lista);
+  useEffect(() => {
+    setSearchedList(listaProfili?.lista);
+  }, [listaProfili?.lista])
+  function searchFunction(event) {
+    const searchString = event.target.value.toLowerCase();
+    const regex = new RegExp(`${searchString}`,'g')
+    // console.log(searchString, regex)
+    let newLista = listaProfili?.lista?.filter((item) => 
+      item.nome.toLowerCase().match(regex) ||
+      item.ruolo.toLowerCase().match(regex)
+    );
+    // console.log(newLista);
+    setSearchedList(newLista);
+  }
+
   return (
     <div className="mx-auto mt-5 overflow-none">
-      <div className="h-[88vh] w-[70vw]">
+      <div className="flex flex-row w-full mb-2 justify-end">
+        <div className="flex flex-row h-10">
+          <Image
+            src={searchIcon}
+            alt="Ricerca documento"
+            title="Digita qui a destra per effettuare la ricerca"
+            className="absolute my-auto -ml-4
+              h-10 w-auto bg-orange-300 rounded-full px-1 py-1
+            "
+          />
+
+          <input 
+            id="inputSearch"
+            className="text-black w-72 pl-7 pr-8 outline-none rounded-lg
+              placeholder:text-xs placeholder:whitespace-pre-line placeholder:-translate-y-2 placeholder:opacity-60"
+            type="text"
+            onChange={searchFunction}
+            placeholder="Cerca un documento per Nome Completo e Ruolo"
+          />
+
+          {document.getElementById("inputSearch")?.value != "" && 
+            <div className="flex flex-row justify-end">
+              <Image
+                src={XIcon2}
+                alt="Elimina ricerca"
+                title="Elimina ricerca"
+                className="absolute my-auto
+                  h-10 w-auto rounded-full px-1 py-2
+                "
+                onClick={() => { 
+                  document.getElementById("inputSearch").value = "";
+                  setSearchedList(listaProfili?.lista)
+                }}
+              />
+            </div>
+          }
+        </div>
+      </div>
+
+      <div className="h-[85vh] w-[70vw]">
         <div className="flex flex-row h-16 items-center
             [&>*]:text-center [&>*]:w-[100%] [&>*]:h-[100%]
             [&>*]:text-base [&>*]:my-auto [&>*]:flex [&>*]:items-center [&>*]:justify-center [&>*]:whitespace-pre-wrap
@@ -120,7 +177,7 @@ export default function UsersView({ listaProfili }) {
         </div>
 
         <div className="overflow-auto no-scrollbar max-h-[91%]">
-          {listaProfili && listaProfili?.lista?.map((user) => {
+          {listaProfili && searchedList?.map((user) => {
             return (
               <div key={user.id} className="flex flex-row items-center justify-around 
                 flex flex-row h-16 items-center text-black
@@ -144,7 +201,7 @@ export default function UsersView({ listaProfili }) {
                 </span>
 
                 <span className="border-r-2">
-                  {!user.direttore && <select onChange={async (e) => {
+                  <select onChange={async (e) => {
                       setSexRole({user: user, role: e.target.value.toUpperCase()});
                       router.refresh();
                     }}
@@ -155,7 +212,7 @@ export default function UsersView({ listaProfili }) {
                     <option value=""></option>
                     <option value="M" >M</option>
                     <option value="F" >F</option>
-                  </select>}
+                  </select>
                 </span>
                 
                 <span className="border-r-2">

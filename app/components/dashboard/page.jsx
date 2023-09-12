@@ -20,6 +20,7 @@ export default function Dashboard({ session, features }) {
     elencoDipendenti: false,
     elencoUtenti: false
   })
+  
 
   const handleVisibility = async (tipo) => {
     // console.log("Test handle", tipo)
@@ -39,23 +40,26 @@ export default function Dashboard({ session, features }) {
         [`${tipo}`]: false
       });
     } */
-  }
+  } 
 
   return session ? (
-    <div className="flex flex-row w-screen overflow-none bg-orange-300">
-      <Sidebar handleVisibility={handleVisibility} features={features} />
-      {features.listaPortiDArmi && componentsVisibility.portiDArmi && <PortoDArmi listaPortiDArmi={features.listaPortiDArmi} /> }
+    <>
+      <div className="flex flex-row w-screen overflow-none bg-orange-300">
+        <Sidebar handleVisibility={handleVisibility} features={features} />
+        {features.listaPortiDArmi && componentsVisibility.portiDArmi && <PortoDArmi listaPortiDArmi={features.listaPortiDArmi} /> }
 
-      {features.listaCartelleCliniche && componentsVisibility.cartelleCliniche && <CartellaClinica listaCartelleCliniche={features.listaCartelleCliniche} /> }
+        {features.listaCartelleCliniche && componentsVisibility.cartelleCliniche && <CartellaClinica listaCartelleCliniche={features.listaCartelleCliniche} /> }
 
-      {features.listaRegistriNascite && componentsVisibility.registriNascite && <RegistroNascita listaRegistriNascite={features.listaRegistriNascite} /> }
+        {features.listaRegistriNascite && componentsVisibility.registriNascite && <RegistroNascita listaRegistriNascite={features.listaRegistriNascite} /> }
 
-      {features.listaElencoDipendenti && componentsVisibility.elencoDipendenti && <ElencoDipendenti listaElencoDipendenti={features.listaElencoDipendenti} />}
+        {features.listaElencoDipendenti && componentsVisibility.elencoDipendenti && <ElencoDipendenti listaElencoDipendenti={features.listaElencoDipendenti} />}
 
-      {features.listaProfili && componentsVisibility.elencoUtenti && <ElencoUtenti listaProfili={features.listaProfili}  /> }
-
-    </div>
+        {features.listaProfili && componentsVisibility.elencoUtenti && <ElencoUtenti listaProfili={features.listaProfili}  /> }
+      </div>
+    </>
   ) : (
     redirect("/")
   );
 }
+
+

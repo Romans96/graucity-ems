@@ -7,10 +7,13 @@ import { useRouter } from "next/navigation";
 import { v4 as uuidv4 } from "uuid";
 import NotificationAlert from "../notification-alert/page";
 
+import Image from "next/image";
+import searchIcon from 'public/search-icon.png';
 import PlusIcon from "public/+-icon-black.png";
 import FUllScreenIcon from "public/fullscreen-icon.png";
 import DeleteIcon from "public/delete-icon-table.png";
-import Image from "next/image";
+import XIcon2 from "public/x-icon-black-2.png";
+
 
 export default function PortoDArmi({ listaPortiDArmi }) {
   const supabase = createClientComponentClient();
@@ -32,6 +35,7 @@ export default function PortoDArmi({ listaPortiDArmi }) {
   const [profile, setProfile] = useState({});
   const [myUser, setMyUser] = useState({});
   const router = useRouter();
+  
 
   useEffect(() => {
     async function fetchUser() {
@@ -86,7 +90,11 @@ export default function PortoDArmi({ listaPortiDArmi }) {
           setTimeout(() => {
             setNotification({ show: false, message: "" });
           }, 8000);
+          
+          
           router.refresh();
+          console.log(listaPortiDArmi)
+          setSearchedList(listaPortiDArmi);
         })
         .catch((err) => {
           console.log("catching: ", err);
@@ -112,6 +120,7 @@ export default function PortoDArmi({ listaPortiDArmi }) {
       setTimeout(() => {
         setNotification({ show: false, message: "" });
       }, 8000);
+      setSearchedList(listaPortiDArmi);
       router.refresh();
     })
   }  
@@ -120,18 +129,75 @@ export default function PortoDArmi({ listaPortiDArmi }) {
     return date<10 ? '0'+date : date;
   }
 
+  const [searchedList, setSearchedList] = useState(listaPortiDArmi);
+  useEffect(() => {
+    setSearchedList(listaPortiDArmi);
+  }, [listaPortiDArmi])
+  function searchFunction(event) {
+    const searchString = event.target.value.toLowerCase();
+    const regex = new RegExp(`${searchString}`,'g')
+    // console.log(searchString, regex)
+    let newLista = listaPortiDArmi.filter((item) => 
+      item.nome.toLowerCase().match(regex) ||
+      item.cognome.toLowerCase().match(regex) ||
+      item.profili.nome.toLowerCase().match(regex)
+    );
+    // console.log(newLista);
+    setSearchedList(newLista);
+  }
+
   return (
     <div className="mx-auto mt-5 overflow-none">
-      <Image 
-        src={PlusIcon}
-        title="Aggiungi un nuovo documento"
-        alt="Aggiunta Documento"
-        className="w-10 saturate-100 opacity-100 hover:invert cursor-pointer"
-        onClick={() => {
-          setShowInsertForm(true);
-        }}
-      />
-      <div className="h-[88vh] w-[70vw]">
+      <div className="flex flex-row w-full justify-between mb-2"> 
+        <Image 
+          src={PlusIcon}
+          title="Aggiungi un nuovo documento"
+          alt="Aggiunta Documento"
+          className="w-10 saturate-100 opacity-100 hover:invert cursor-pointer"
+          onClick={() => {
+            setShowInsertForm(true);
+          }}
+        />
+        <div className="flex flex-row h-10">
+          <Image
+            src={searchIcon}
+            alt="Ricerca documento"
+            title="Digita qui a destra per effettuare la ricerca"
+            className="absolute my-auto -ml-4
+              h-10 w-auto bg-orange-300 rounded-full px-1 py-1
+            "
+          />
+
+          <input 
+            id="inputSearch"
+            className="text-black w-72 pl-7 pr-8 outline-none rounded-lg
+              placeholder:text-xs placeholder:whitespace-pre-line placeholder:-translate-y-2 placeholder:opacity-60"
+            type="text"
+            onChange={searchFunction}
+            placeholder="Cerca un documento per Nome, Cognome o Nome del Dottore"
+          />
+
+          {document.getElementById("inputSearch")?.value != "" && 
+            <div className="flex flex-row justify-end">
+              <Image
+                src={XIcon2}
+                alt="Elimina ricerca"
+                title="Resetta ricerca"
+                className="absolute my-auto
+                  h-10 w-auto rounded-full px-1 py-2
+                "
+                onClick={() => { 
+                  document.getElementById("inputSearch").value = "";
+                  setSearchedList(listaPortiDArmi)
+                }}
+              />
+            </div>
+          }
+        </div>
+      </div>
+
+
+      <div className="h-[85vh] w-[70vw]">
         <div className="flex flex-row h-16 items-center
             [&>*]:text-center [&>*]:w-[100%] [&>*]:h-[100%]
             [&>*]:text-base [&>*]:my-auto [&>*]:flex [&>*]:items-center [&>*]:justify-center [&>*]:whitespace-pre-wrap
@@ -148,12 +214,13 @@ export default function PortoDArmi({ listaPortiDArmi }) {
         </div>
 
         <div className="overflow-auto no-scrollbar max-h-[91%]">
-          {listaPortiDArmi && listaPortiDArmi?.map((item) => {
+          {listaPortiDArmi && searchedList?.map((item) => {
             // console.log(item.created_at)
             const dataCreazione = new Date(item.created_at)
             let dataCreazioneFinale = AddZeroOnDate(dataCreazione.getDate()) + "-" + AddZeroOnDate((dataCreazione.getMonth()+1)) + "-" + dataCreazione.getFullYear();
             dataCreazioneFinale = dataCreazioneFinale + " " + (AddZeroOnDate(dataCreazione.getHours()) + ":" + AddZeroOnDate(dataCreazione.getMinutes()) );
             // console.log(dataCreazioneFinale)
+            // console.log(item)
             return (
               <div key={item.id} className="flex flex-row items-center justify-around [&>*]:w-[100%] [&>*]:text-center
                 flex flex-row h-16 items-center text-black
@@ -164,7 +231,7 @@ export default function PortoDArmi({ listaPortiDArmi }) {
                 <span className="border-r-2">{item.nome}</span>
                 <span className="border-r-2">{item.cognome}</span>
                 <span className="border-r-2">{dataCreazioneFinale}</span>
-                <span>{item.nomeDottore}</span>
+                <span>{item.profili.nome}</span>
                 <span>
                   <img 
                     src="/fullscreen-icon.png"
@@ -182,7 +249,7 @@ export default function PortoDArmi({ listaPortiDArmi }) {
                           
                           newIng.nome = item.nome;
                           newIng.cognome = item.cognome;
-                          newIng.dottoreDiscord = item.dottoreDiscord;
+                          newIng.discord_id = item.profili.discord_id;
                           newIng.screen = item.screen;
                           newIng.url = data.publicUrl;
                           newIng.show = true;
@@ -309,7 +376,7 @@ export default function PortoDArmi({ listaPortiDArmi }) {
           <span className="mx-auto underline">Dettagli Porto d&apos;armi</span>
           <span>Nome: {ingrandisci.nome}</span>
           <span>Cognome: {ingrandisci.cognome}</span>
-          <span>Discord ID Dottore: {ingrandisci.dottoreDiscord}</span>
+          <span>Discord ID Dottore: {ingrandisci.discord_id}</span>
           <span>
             <img src={ingrandisci.url} alt="Immagine profilo" 
               className="max-h-[65vh]"

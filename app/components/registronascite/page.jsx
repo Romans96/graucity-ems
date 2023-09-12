@@ -5,6 +5,10 @@ import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import NotificationAlert from "../notification-alert/page";
 
+import Image from "next/image";
+import searchIcon from 'public/search-icon.png';
+import XIcon2 from "public/x-icon-black-2.png";
+
 export default function RegistroNascita({ listaRegistriNascite }) {
   const supabase = createClientComponentClient();
   const [direttore, setDirettore] = useState(false);
@@ -84,16 +88,76 @@ export default function RegistroNascita({ listaRegistriNascite }) {
     })
   }
 
+  const [searchedList, setSearchedList] = useState(listaRegistriNascite);
+  useEffect(() => {
+    setSearchedList(listaRegistriNascite);
+  }, [listaRegistriNascite])
+  // console.log(listaRegistriNascite, searchedList)
+  function searchFunction(event) {
+    const searchString = event.target.value.toLowerCase();
+    const regex = new RegExp(`${searchString}`,'g')
+    // console.log(searchString, regex)
+    let newLista = listaRegistriNascite.filter((item) => 
+      item.nome.toLowerCase().match(regex) ||
+      item.cognome.toLowerCase().match(regex) ||
+      item.sesso.toLowerCase().match(regex) ||
+      item.profili.nome.toLowerCase().match(regex)
+    );
+    // console.log(newLista);
+    setSearchedList(newLista);
+  }
+
   return (
     <div className="mx-auto mt-5 overflow-none">
-      <img 
-        src="/+-icon-black.png"
-        title="Aggiungi un nuovo documento"
-        className="w-10 saturate-100 opacity-100 hover:invert cursor-pointer"
-        onClick={() => {
-          setShowInsertForm(true);
-        }}
-      />
+      <div className="flex flex-row w-full justify-between mb-2"> 
+        <img 
+          src="/+-icon-black.png"
+          title="Aggiungi un nuovo documento"
+          className="w-10 saturate-100 opacity-100 hover:invert cursor-pointer"
+          onClick={() => {
+            setShowInsertForm(true);
+          }}
+        />
+        <div className="flex flex-row h-10">
+          <Image
+            src={searchIcon}
+            alt="Ricerca documento"
+            title="Digita qui a destra per effettuare la ricerca"
+            className="absolute my-auto -ml-4
+              h-10 w-auto bg-orange-300 rounded-full px-1 py-1
+            "
+
+          />
+          <input 
+            id="inputSearch"
+            className="text-black w-72 pl-7 pr-8 outline-none rounded-lg
+              placeholder:text-xs placeholder:whitespace-pre-line placeholder:-translate-y-2 placeholder:opacity-60"
+            type="text"
+            onChange={searchFunction}
+            placeholder="Cerca un documento per Nome, Cognome, Sesso o Nome del Dottore"
+          />
+
+          {document.getElementById("inputSearch")?.value != "" && 
+            <div className="flex flex-row justify-end">
+              <Image
+                src={XIcon2}
+                alt="Elimina ricerca"
+                title="Resetta ricerca"
+                className="absolute my-auto
+                  h-10 w-auto rounded-full px-1 py-2
+                "
+                onClick={() => { 
+                  document.getElementById("inputSearch").value = "";
+                  setSearchedList(listaRegistriNascite)
+                }}
+              />
+            </div>
+          }
+        </div>
+      </div>
+
+
+
       <div className="h-[88vh] w-[70vw]">
         <div className="flex flex-row h-16 items-center
             [&>*]:text-center [&>*]:w-[100%] [&>*]:h-[100%]
@@ -113,7 +177,7 @@ export default function RegistroNascita({ listaRegistriNascite }) {
         </div>
 
         <div className="overflow-auto no-scrollbar max-h-[91%]">
-          {listaRegistriNascite && listaRegistriNascite?.map((item) => {
+          {listaRegistriNascite && searchedList?.map((item) => {
             let data_nascita = new Date(item.data_nascita);
             data_nascita = data_nascita.getDate()+"/"+(data_nascita.getMonth()+1)+"/"+data_nascita.getFullYear();
             let data_rilascio = new Date(item.created_at);
@@ -135,7 +199,7 @@ export default function RegistroNascita({ listaRegistriNascite }) {
                   {data_rilascio}
                 </span>
                 <span className="border-r-2">{item.sesso.toUpperCase()}</span>
-                <span>{nomeDottore}</span>
+                <span>{item.profili.nome}</span>
                 <span>
                   <img 
                     src="/fullscreen-icon.png"
