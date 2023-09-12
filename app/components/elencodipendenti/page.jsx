@@ -91,11 +91,13 @@ export default function ElencoDipendenti({ listaElencoDipendenti }) {
   }
 
   const [searchedList, setSearchedList] = useState(listaElencoDipendenti);
+  const [searchString, setSearchString] = useState("");
   useEffect(() => {
     setSearchedList(listaElencoDipendenti);
   }, [listaElencoDipendenti])
   function searchFunction(event) {
-    const searchString = event.target.value.toLowerCase();
+    // const searchString = event.target.value.toLowerCase();
+    setSearchString(event.target.value.toLowerCase());
     const regex = new RegExp(`${searchString}`,'g')
     // console.log(searchString, regex)
     let newLista = listaElencoDipendenti.filter((item) => 
@@ -138,7 +140,8 @@ export default function ElencoDipendenti({ listaElencoDipendenti }) {
             placeholder="Cerca un dipendente per Nome, Cognome o Ruolo"
           />
 
-          {document.getElementById("inputSearch")?.value != "" && 
+          {/* {document.getElementById("inputSearch")?.value != "" */}
+          {searchString != "" && 
             <div className="flex flex-row justify-end">
               <Image
                 src={XIcon2}

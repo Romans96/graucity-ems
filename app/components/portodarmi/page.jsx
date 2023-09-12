@@ -130,11 +130,13 @@ export default function PortoDArmi({ listaPortiDArmi }) {
   }
 
   const [searchedList, setSearchedList] = useState(listaPortiDArmi);
+  const [searchString, setSearchString] = useState("");
   useEffect(() => {
     setSearchedList(listaPortiDArmi);
   }, [listaPortiDArmi])
   function searchFunction(event) {
-    const searchString = event.target.value.toLowerCase();
+    // const searchString = event.target.value.toLowerCase();
+    setSearchString(event.target.value.toLowerCase());
     const regex = new RegExp(`${searchString}`,'g')
     // console.log(searchString, regex)
     let newLista = listaPortiDArmi.filter((item) => 
@@ -177,7 +179,8 @@ export default function PortoDArmi({ listaPortiDArmi }) {
             placeholder="Cerca un documento per Nome, Cognome o Nome del Dottore"
           />
 
-          {document.getElementById("inputSearch")?.value != "" && 
+          {/* {document.getElementById("inputSearch")?.value != "" */}
+          {searchString != "" && 
             <div className="flex flex-row justify-end">
               <Image
                 src={XIcon2}

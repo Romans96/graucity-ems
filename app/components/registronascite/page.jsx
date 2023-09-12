@@ -89,12 +89,14 @@ export default function RegistroNascita({ listaRegistriNascite }) {
   }
 
   const [searchedList, setSearchedList] = useState(listaRegistriNascite);
+  const [searchString, setSearchString] = useState("");
   useEffect(() => {
     setSearchedList(listaRegistriNascite);
   }, [listaRegistriNascite])
   // console.log(listaRegistriNascite, searchedList)
   function searchFunction(event) {
-    const searchString = event.target.value.toLowerCase();
+    // const searchString = event.target.value.toLowerCase();
+    setSearchString(event.target.value.toLowerCase());
     const regex = new RegExp(`${searchString}`,'g')
     // console.log(searchString, regex)
     let newLista = listaRegistriNascite.filter((item) => 
@@ -137,7 +139,8 @@ export default function RegistroNascita({ listaRegistriNascite }) {
             placeholder="Cerca un documento per Nome, Cognome, Sesso o Nome del Dottore"
           />
 
-          {document.getElementById("inputSearch")?.value != "" && 
+          {/* {document.getElementById("inputSearch")?.value != "" */} 
+          {searchString != "" && 
             <div className="flex flex-row justify-end">
               <Image
                 src={XIcon2}

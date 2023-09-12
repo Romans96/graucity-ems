@@ -103,11 +103,13 @@ export default function UsersView({ listaProfili }) {
   }
 
   const [searchedList, setSearchedList] = useState(listaProfili?.lista);
+  const [searchString, setSearchString] = useState("");
   useEffect(() => {
     setSearchedList(listaProfili?.lista);
   }, [listaProfili?.lista])
   function searchFunction(event) {
-    const searchString = event.target.value.toLowerCase();
+    // const searchString = event.target.value.toLowerCase();
+    setSearchString(event.target.value.toLowerCase());
     const regex = new RegExp(`${searchString}`,'g')
     // console.log(searchString, regex)
     let newLista = listaProfili?.lista?.filter((item) => 
@@ -140,7 +142,8 @@ export default function UsersView({ listaProfili }) {
             placeholder="Cerca un documento per Nome Completo e Ruolo"
           />
 
-          {document.getElementById("inputSearch")?.value != "" && 
+          {/* {document.getElementById("inputSearch")?.value != ""  */}
+          {searchString != "" && 
             <div className="flex flex-row justify-end">
               <Image
                 src={XIcon2}

@@ -116,11 +116,13 @@ export default function CartellaClinica({ listaCartelleCliniche }) {
   }
 
   const [searchedList, setSearchedList] = useState(listaCartelleCliniche);
+  const [searchString, setSearchString] = useState("");
   useEffect(() => {
     setSearchedList(listaCartelleCliniche);
   }, [listaCartelleCliniche])
   function searchFunction(event) {
-    const searchString = event.target.value.toLowerCase();
+    // const searchString = event.target.value.toLowerCase();
+    setSearchString(event.target.value.toLowerCase());
     const regex = new RegExp(`${searchString}`,'g')
     // console.log(searchString, regex)
     let newLista = listaCartelleCliniche.filter((item) => 
@@ -163,7 +165,8 @@ export default function CartellaClinica({ listaCartelleCliniche }) {
             placeholder="Cerca un documento per Nome, Cognome o Nome del Dottore"
           />
 
-          {document.getElementById("inputSearch")?.value != "" && 
+          {/* {document.getElementById("inputSearch")?.value != "" */}
+          {searchString != "" && 
             <div className="flex flex-row justify-end">
               <Image
                 src={XIcon2}
